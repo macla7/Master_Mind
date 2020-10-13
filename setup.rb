@@ -31,9 +31,7 @@ class Setup
   end
 
   def start_game
-    # Game.new(@human, @comp, @secret_code)
+    Game.new(@human, @comp, @secret_code)
   end
 end
 
-# Setup.new('CodeMaker', 'CodeBreaker')
-Setup.new('CodeBreaker', 'CodeMaker')

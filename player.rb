@@ -23,8 +23,7 @@ class Player
       puts "\nPlease enter in one of the two options:"
       ask_human
     end
-    # Setup.new(@human, @comp)
+    Setup.new(@human, @comp)
   end
 end
 
-Player.new
