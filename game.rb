@@ -17,6 +17,7 @@ class Game
 
   def start_game
     if @human == "CodeBreaker"
+      puts "\n.\n.\n.\n"
       puts "\nThe game is starting. You are the CodeBreaker.\n\nGoal:\n\nYour job is to guess the 4 colours used. You must also replicate the same order. If you guess the right colour AND in the right place, you will get a red peg. If you guess the right colour, but not in the right place, you will get a white peg.\n"
       puts "\nHow many turns would you like to try and beat the AI in?\n\n"
       @turns = gets.chomp.to_i
@@ -26,7 +27,8 @@ class Game
       end
       ask_human_guess
     else
-      # AI subclass
+      puts "argh!"
+      Ai.new(@secret_code)
     end
   end
 
@@ -91,10 +93,23 @@ class Game
   def finish_turn
     puts "\nYou got:\n##{@red_pegs} Red Pegs \n##{@white_pegs} White Pegs"
     @turn_number += 1
+    @white_pegs = 0
+    @red_pegs = 0
     ask_human_guess
   end
 
   def no_more_turns
     puts "\nsorry gg bro.\n\n"
+  end
+end
+
+class Ai < Game
+  def initialize(secret_code)
+    super(secret_code)
+    say_hi
+  end
+
+  def say_hi
+    puts "hi!!"
   end
 end

@@ -17,6 +17,7 @@ class Setup
   end
 
   def make_secret_code
+    puts "\n.\n.\n.\n"
     puts "\nPlease enter a combination of 4 of the below colours\n
           #{COLOURS}:\n\n"
     @secret_code = gets.chomp.split
