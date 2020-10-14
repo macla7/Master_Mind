@@ -27,7 +27,6 @@ class Game
       end
       ask_human_guess
     else
-      puts "argh!"
       Ai.new(@secret_code)
     end
   end
@@ -63,7 +62,7 @@ class Game
 
   def verify_win
     if @player_guess == @secret_code
-      puts "\nCongrats, you've won big sir!\n\n"
+      puts "\nCongrats to the Code BREAKERRR!\n\n"
     else
       red_peg
     end
@@ -75,18 +74,18 @@ class Game
         @red_pegs += 1
       else
         @player_guess_store.push(@player_guess[i])
-        @secret_store.push(@secret_code[i])
       end
     end
     white_peg
   end
 
   def white_peg
-    @secret_store.each do |colour|
-      if @player_guess_store.include? (colour)
+    @player_guess_store.each do |colour|
+      if @secret_code.include? (colour)
         @white_pegs += 1
       end
     end
+    @player_guess_store = []
     finish_turn
   end
 
@@ -95,21 +94,53 @@ class Game
     @turn_number += 1
     @white_pegs = 0
     @red_pegs = 0
-    ask_human_guess
+    if @human == "CodeBreaker"
+      ask_human_guess
+    else
+      comp_turn
+    end
   end
 
   def no_more_turns
-    puts "\nsorry gg bro.\n\n"
+    if @human == "CodeBreaker"
+      puts "\nsorry gg bro.\n\n"
+    else
+      puts "\nVictory, we have Victory!\n"
+    end
   end
 end
 
+# can't use the super method here because it'll recall start_game and create an infite loop.. Note, something else I've learned about super() in the initialize is that it'll essentially recall the whole intialize from the parent class, meaning you need to instantiate the new subclass with the same arguments and feed the same arguments to the initialize..
+
 class Ai < Game
   def initialize(secret_code)
-    super(secret_code)
-    say_hi
+    @secret_code = secret_code
+    @red_pegs = 0
+    @white_pegs = 0
+    @player_guess_store = []
+    @secret_store = []
+    @turn_number = 1
+    @player_guess
+    @comp_guess_arr = []
+    puts "\nComputer gets 5 turns:\n"
+    comp_turn
   end
 
-  def say_hi
-    puts "hi!!"
+  def comp_turn
+    if @turn_number <= 5
+      comp_guess
+    else
+      no_more_turns
+    end
+  end
+
+  def comp_guess
+    4.times do
+      @comp_guess_arr.push(Setup::COLOURS[rand(0..3)])
+    end
+    @player_guess = @comp_guess_arr
+    @comp_guess_arr = []
+    puts "\nSkynet guesses \"#{@player_guess.join(", ")}\"\n\n"
+    verify_win
   end
 end
